@@ -40,15 +40,30 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <h2>{isLogin ? 'Iniciar Sesión' : 'Registrarse'}</h2>
+    <div className="w-full max-w-md mx-auto bg-gray-800 rounded-lg shadow-lg p-8">
+      <h2 className="text-3xl font-bold text-center mb-6 text-white">
+        {isLogin ? 'Iniciar Sesión' : 'Registrarse'}
+      </h2>
       
-      {error && <div className="error-message">{error}</div>}
-      {success && <div className="success-message">{success}</div>}
+      {error && (
+        <div className="bg-red-500 bg-opacity-30 text-white px-4 py-3 rounded-md mb-4">
+          {error}
+        </div>
+      )}
+      {success && (
+        <div className="bg-green-500 bg-opacity-30 text-white px-4 py-3 rounded-md mb-4">
+          {success}
+        </div>
+      )}
       
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Usuario</label>
+        <div className="mb-4">
+          <label 
+            htmlFor="username" 
+            className="block text-sm font-medium text-gray-300 mb-2"
+          >
+            Usuario
+          </label>
           <input
             type="text"
             id="username"
@@ -56,12 +71,18 @@ function Login() {
             value={formData.username}
             onChange={handleChange}
             required
+            className="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
         
         {!isLogin && (
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
+          <div className="mb-4">
+            <label 
+              htmlFor="email" 
+              className="block text-sm font-medium text-gray-300 mb-2"
+            >
+              Email
+            </label>
             <input
               type="email"
               id="email"
@@ -69,12 +90,18 @@ function Login() {
               value={formData.email}
               onChange={handleChange}
               required={!isLogin}
+              className="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
         )}
         
-        <div className="form-group">
-          <label htmlFor="password">Contraseña</label>
+        <div className="mb-6">
+          <label 
+            htmlFor="password" 
+            className="block text-sm font-medium text-gray-300 mb-2"
+          >
+            Contraseña
+          </label>
           <input
             type="password"
             id="password"
@@ -82,24 +109,28 @@ function Login() {
             value={formData.password}
             onChange={handleChange}
             required
+            className="w-full px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
         
-        <button type="submit" className="submit-btn">
+        <button 
+          type="submit" 
+          className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-md transition duration-300 ease-in-out transform hover:scale-[1.02] shadow-lg"
+        >
           {isLogin ? 'Iniciar Sesión' : 'Registrarse'}
         </button>
       </form>
       
-      <p className="toggle-form">
+      <div className="mt-6 text-center text-sm text-gray-400">
         {isLogin ? '¿No tienes cuenta? ' : '¿Ya tienes cuenta? '}
         <button 
           type="button" 
-          className="toggle-btn"
+          className="text-blue-500 hover:text-blue-400 font-medium focus:outline-none"
           onClick={() => setIsLogin(!isLogin)}
         >
           {isLogin ? 'Regístrate' : 'Inicia Sesión'}
         </button>
-      </p>
+      </div>
     </div>
   );
 }

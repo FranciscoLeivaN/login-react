@@ -1,0 +1,76 @@
+name: Pipeline de CI/CD
+
+on:
+    pull_request:
+        branches: [main]
+    push:
+        branches: [main]
+
+jobs:
+    validate:
+        name: 1. Validar Calidad del Código
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout del código
+              uses: actions/checkout@v4
+            - name: Configurar Node.js
+              uses: actions/setup-node@v4
+              with:
+                node-version: '20'
+                cache: 'npm'
+            - name: Instalar Dependencias
+              run: npm install
+            - name: Ejecutar Pruebas y Linter
+              run: |
+                npm run lint
+                npm run test
+
+    automerge:
+        name: 2. Fusionar PR
+        needs: validate
+        if: github.event_name == 'pull_request' && needs.validate.result == 'success' && github.event.pull_request.draft == false
+        runs-on: ubuntu-latest
+        permissions:
+            pull-requests: write
+            contents: write
+        
+        steps:
+            - name: Fusionar
+              uses: pascalgn/automerge-action@v0.16.3
+              env:
+                GITHUB_TOKEN: "${{ secrets.ACTIONS_PAT }}"
+                MERGE_METHOD: "squash"
+                MERGE_LABELS: ""
+
+    deploy:
+        name: 3. Desplegar en GitHub Pages
+        needs: validate
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.validate.result == 'success'
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            pages: write
+            id-token: write
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        
+        steps:
+            - name: Checkout del código
+              uses: actions/checkout@v4
+            - name: Configurar Node.js
+              uses: actions/setup-node@v4
+              with:
+                node-version: '20'
+            - name: Build
+              run: |
+                mkdir ./dist
+                cp index.html ./dist/
+                cp app.js ./dist/
+            - name: Subir artefacto para Pages
+              uses: actions/upload-pages-artifact@v3
+              with:
+                path: './dist'
+            - name: Desplegar en Github Pages
+              id: deployment
+              uses: actions/deploy-pages@v4
