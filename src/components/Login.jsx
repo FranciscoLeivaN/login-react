@@ -81,7 +81,7 @@ function Login() {
               htmlFor="email" 
               className="block text-sm font-medium text-gray-300 mb-2"
             >
-              Email
+              Email de usuario
             </label>
             <input
               type="email"
