@@ -68,6 +68,7 @@ jobs:
             - name: Configure for GitHub Pages
               run: |
                 cp dist/index.html dist/404.html
+
             - name: Subir artefacto para Pages
               uses: actions/upload-pages-artifact@v3
               with:
