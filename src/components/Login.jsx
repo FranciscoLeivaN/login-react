@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-function Login() {
+function Login({ onLoginSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     username: '',
@@ -22,6 +22,25 @@ function Login() {
     setSuccess('');
     
     try {
+      // Check if we should use mock API response (for GitHub Pages deployment)
+      if (import.meta.env.VITE_USE_MOCK_API === 'true') {
+        // Simulate API response for GitHub Pages demo
+        if (isLogin && formData.username === 'demo' && formData.password === 'password') {
+          setSuccess('Login exitoso! (Demo Mode)');
+          localStorage.setItem('token', 'mock-jwt-token');
+          if (onLoginSuccess) onLoginSuccess();
+          return;
+        } else if (!isLogin) {
+          setSuccess('Registro exitoso! (Demo Mode)');
+          localStorage.setItem('token', 'mock-jwt-token');
+          return;
+        } else {
+          setError('Credenciales inválidas (Demo: use demo/password)');
+          return;
+        }
+      }
+      
+      // Real API call if not using mock mode
       const url = isLogin ? 
         `${import.meta.env.VITE_API_URL}/users/login` : 
         `${import.meta.env.VITE_API_URL}/users/register`;
@@ -33,6 +52,7 @@ function Login() {
         // En una app real, guardarías el token en localStorage
         localStorage.setItem('token', response.data.token);
         // Y redirigirías al usuario
+        if (isLogin && onLoginSuccess) onLoginSuccess();
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Ha ocurrido un error');

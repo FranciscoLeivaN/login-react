@@ -65,10 +65,13 @@ jobs:
               run: npm install
             - name: Build
               run: npm run build
+            - name: Configure for GitHub Pages
+              run: |
+                cp dist/index.html dist/404.html
             - name: Subir artefacto para Pages
               uses: actions/upload-pages-artifact@v3
               with:
-                path: './dist'
+                path: 'dist'
             - name: Desplegar en Github Pages
               id: deployment
               uses: actions/deploy-pages@v4

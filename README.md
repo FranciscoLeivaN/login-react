@@ -1,11 +1,25 @@
-# React + Vite
+# Login React App Demo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto es una demostración de una aplicación de inicio de sesión y registro utilizando React, Vite, y Express.
 
-Currently, two official plugins are available:
+## Demostración en GitHub Pages
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Puedes acceder a la versión demo de esta aplicación en GitHub Pages:
+
+[https://franciscoleivan.github.io/login-react/](https://franciscoleivan.github.io/login-react/)
+
+**Nota:** La versión de GitHub Pages utiliza datos simulados ya que no hay un backend disponible.
+Para iniciar sesión en la demo, utiliza:
+- Usuario: `demo`
+- Contraseña: `password`
+
+## Tecnologías Utilizadas
+
+- React
+- Vite
+- Express (backend)
+- Tailwind CSS
+- Axios
 
 ## Expanding the ESLint configuration
 
